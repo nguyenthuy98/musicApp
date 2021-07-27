@@ -11,7 +11,8 @@ const SongDetail = (props) => {
 
   useEffect(() => {
     audioTune.load();
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const playSound = () => {
     audioTune.play();
@@ -39,29 +40,19 @@ const SongDetail = (props) => {
             <li className="list-group-item">
               <img src={props.currentSong.avatar} alt="avatar" />
               <div className="list-group-button">
-                <FaPauseCircle 
-                  onClick={pauseSound} 
-                  className="iconAction" 
-                />
-                <FaPlayCircle 
-                  onClick={playSound} 
-                  className="iconAction" 
-                />
-                <FaStopCircle 
-                  onClick={stopSound} 
-                  className="iconAction" 
-                />
+                <FaPauseCircle onClick={pauseSound} className="iconAction" />
+                <FaPlayCircle onClick={playSound} className="iconAction" />
+                <FaStopCircle onClick={stopSound} className="iconAction" />
               </div>
             </li>
             <li className="list-group-item">
               Singer: {props.currentSong.creator}
             </li>
             <li className="list-group-item">Song: {props.currentSong.title}</li>
-            <li className="list-group-item">Download: 
-              <a href={props.currentSong.music} >
-                <BsDownload
-                  className="downLoadButton"
-                />
+            <li className="list-group-item">
+              Download:
+              <a href={props.currentSong.music}>
+                <BsDownload className="downLoadButton" />
               </a>
             </li>
           </ul>
