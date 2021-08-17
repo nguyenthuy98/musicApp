@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SongDetail from "./SongDetail";
+import SongEdit from "./SongEdit";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import "./../assets/style.css";
@@ -9,6 +11,7 @@ const ListSongs = () => {
   const [songs, setSongs] = useState([]);
   const [song, setSong] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const [isEdit, setEdit] = useState([]);
 
   useEffect(() => {
     loadSongs();
@@ -18,13 +21,23 @@ const ListSongs = () => {
     setOpenPopup(!openPopup);
     let currentSong = {};
     // eslint-disable-next-line array-callback-return
-    songs.filter((el) => {
-      if (el.id === id) {
-        currentSong = el;
-      }
-    });
-    setSong(currentSong);
+    if (id !== null) {
+      songs.filter((el) => {
+        if (el.id === id) {
+          currentSong = el;
+        }
+        return currentSong;
+      });
+      setSong(currentSong);
+    } else {
+      loadSongs();
+    }
   };
+
+  const viewDetail = (id) => {
+    setEdit(false);
+    togglePopup(id);
+  }
 
   const loadSongs = async () => {
     const result = await axios.get("http://localhost:3000/songs");
@@ -36,9 +49,9 @@ const ListSongs = () => {
     loadSongs();
   };
 
-  let isEdit = false;
   const editSong = (id) => {
-    isEdit = true;
+    setEdit(true);
+    togglePopup(id);
   };
   return (
     <div className="container">
@@ -63,10 +76,11 @@ const ListSongs = () => {
                     src={song.avatar}
                     alt="avatar"
                     width="50%"
-                    onClick={() => togglePopup(song.id)}
+                    className="avatar-item"
+                    onClick={() => viewDetail(song.id)}
                   />
                 </td>
-                <td onClick={() => togglePopup(song.id)}>{song.title}</td>
+                <td onClick={() => viewDetail(song.id)}>{song.title}</td>
                 <td>{song.creator}</td>
                 <td>
                   <AiTwotoneEdit
@@ -82,13 +96,20 @@ const ListSongs = () => {
             ))}
           </tbody>
         </table>
-        {openPopup && (
+        {openPopup && !isEdit && (
           <SongDetail
-            isEdit={isEdit}
             currentSong={song}
             handleClose={togglePopup}
           />
         )}
+        {
+          openPopup && isEdit && (
+            <SongEdit
+              currentSong={song}
+              handleClose={togglePopup}
+            />
+          )
+        }
       </div>
     </div>
   );
