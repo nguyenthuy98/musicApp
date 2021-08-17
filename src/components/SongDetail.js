@@ -38,7 +38,7 @@ const SongDetail = (props) => {
           <hr />
           <ul className="list-group">
             <li className="list-group-item">
-              <img src={props.currentSong.avatar} alt="avatar" />
+              <img src={props.currentSong.avatar} alt="avatar" className="cover-avatar"/>
               <div className="list-group-button">
                 <FaPauseCircle onClick={pauseSound} className="iconAction" />
                 <FaPlayCircle onClick={playSound} className="iconAction" />

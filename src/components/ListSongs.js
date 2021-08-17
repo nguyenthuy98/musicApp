@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SongDetail from "./SongDetail";
 import SongEdit from "./SongEdit";
+import NewSong from "./NewSong";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { RiDeleteBin6Fill } from "react-icons/ri";
+import { GrAdd } from "react-icons/gr";
 import "./../assets/style.css";
 
 const ListSongs = () => {
@@ -12,6 +14,7 @@ const ListSongs = () => {
   const [song, setSong] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [isEdit, setEdit] = useState([]);
+  const [isAddNew, setAddNew] = useState([]);
 
   useEffect(() => {
     loadSongs();
@@ -36,6 +39,7 @@ const ListSongs = () => {
 
   const viewDetail = (id) => {
     setEdit(false);
+    setAddNew(false);
     togglePopup(id);
   }
 
@@ -51,10 +55,24 @@ const ListSongs = () => {
 
   const editSong = (id) => {
     setEdit(true);
+    setAddNew(false);
     togglePopup(id);
   };
+
+  const addSong = () => {
+    setAddNew(true);
+    setEdit(false);
+    setOpenPopup(!openPopup);
+  };
+
   return (
     <div className="container">
+      <div className="add-item-area">
+        <GrAdd 
+          className="add-song"
+          onClick={() => addSong()}
+        />
+      </div>
       <div className="py-4">
         <h3>‎Top 100: South Korea on Apple Music</h3>
         <table className="table table-striped table-hover">
@@ -76,7 +94,7 @@ const ListSongs = () => {
                     src={song.avatar}
                     alt="avatar"
                     width="50%"
-                    className="avatar-item"
+                    className="cover-avatar"
                     onClick={() => viewDetail(song.id)}
                   />
                 </td>
@@ -96,16 +114,23 @@ const ListSongs = () => {
             ))}
           </tbody>
         </table>
-        {openPopup && !isEdit && (
+        {openPopup && !isEdit && !isAddNew  && (
           <SongDetail
             currentSong={song}
             handleClose={togglePopup}
           />
         )}
         {
-          openPopup && isEdit && (
+          openPopup && isEdit && !isAddNew && (
             <SongEdit
               currentSong={song}
+              handleClose={togglePopup}
+            />
+          )
+        }
+        {
+          openPopup && isAddNew && !isEdit && (
+            <NewSong
               handleClose={togglePopup}
             />
           )

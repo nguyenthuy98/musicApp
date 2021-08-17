@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import "./../assets/style.css";
 
-const SongEdit = (props) => {
+const NewSong = (props) => {
   const [song, setSong] = useState({
-    avatar: "",
+    avatar: "https://avatar-ex-swe.nixcdn.com/song/2021/03/12/e/2/9/e/1615525268442.jpg",
     creator: "",
     music: "",
     title: "",
   });
+
   const { avatar, creator, music, title } = song;
-
-  useEffect(() => {
-    setSong(props.currentSong);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // edit song function
   const onInputChange = (e) => {
     if(e.target.name === "avatar") {
       const reader = new FileReader();
@@ -34,10 +28,7 @@ const SongEdit = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(
-      `http://localhost:3000/songs/${props.currentSong.id}`,
-      song
-    );
+    await axios.post("http://localhost:3000/songs",song);
     props.handleClose(null);
   };
   return (
@@ -47,7 +38,7 @@ const SongEdit = (props) => {
           x
         </span>
         <div>
-          <b>Edit song</b>
+          <b>Add new song</b>
           <hr />
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="form-group">
@@ -97,7 +88,7 @@ const SongEdit = (props) => {
                 onChange={(e) => onInputChange(e)}
               />
             </div>
-            <button className="btn btn-warning btn-block">Update Song</button>
+            <button className="btn btn-warning btn-block">Add New Song</button>
           </form>
         </div>
       </div>
@@ -105,4 +96,4 @@ const SongEdit = (props) => {
   );
 };
 
-export default SongEdit;
+export default NewSong;

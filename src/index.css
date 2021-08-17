@@ -53,9 +53,20 @@ code {
 }
 
 .cover-avatar {
-  width: 152px;
+  width: 150px;
 }
 
-.avatar-item {
-  width: 152px;
+.add-item-area {
+  position: absolute;
+  right: 100px;
+  top: 60px;
+  background-color: burlywood;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.add-song {
+  margin: 12px;
+  font-size: 25px;
 }
