@@ -28,7 +28,7 @@ const NewSong = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3000/songs",song);
+    await axios.post("http://localhost:5000/songs",song);
     props.handleClose(null);
   };
   return (

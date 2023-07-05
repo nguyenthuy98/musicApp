@@ -35,7 +35,7 @@ const SongEdit = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(
-      `http://localhost:3000/songs/${props.currentSong.id}`,
+      `http://localhost:5000/songs/${props.currentSong.id}`,
       song
     );
     props.handleClose(null);

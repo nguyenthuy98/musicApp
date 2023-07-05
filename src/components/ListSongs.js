@@ -44,12 +44,12 @@ const ListSongs = () => {
   }
 
   const loadSongs = async () => {
-    const result = await axios.get("http://localhost:3000/songs");
+    const result = await axios.get("http://localhost:5000/songs");
     setSongs(result.data);
   };
 
   const deleteSong = async (id) => {
-    await axios.delete(`http://localhost:3000/songs/${id}`);
+    await axios.delete(`http://localhost:5000/songs/${id}`);
     loadSongs();
   };
 
